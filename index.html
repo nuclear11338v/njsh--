@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ᗩᗪS ᖴᖇᕮᕮ ᗷYᕮ @ᗰᖇ_ᗩᖇᗰᗩᑎ_Oᗯᑎᕮᖇ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, #111, #000);
+            color: white;
+        }
+        header {
+            background-color: #009688;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+        }
+        #search-container {
+            margin: 20px;
+            text-align: center;
+        }
+        #search-input {
+            width: 60%;
+            padding: 12px;
+            font-size: 18px;
+            border-radius: 8px;
+            border: 2px solid #ddd;
+        }
+        #search-button {
+            padding: 12px 20px;
+            font-size: 18px;
+            border: none;
+            background-color: #009688;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        #search-button:hover {
+            background-color: #00796b;
+        }
+        #videos-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+            margin: 20px;
+        }
+        .video-card {
+            width: 300px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            background: #111;
+            transition: transform 0.3s ease-in-out;
+        }
+        .video-card:hover {
+            transform: scale(1.05);
+        }
+        .video-card img {
+            width: 100%;
+            height: 170px;
+            object-fit: cover;
+        }
+        .video-info {
+            padding: 10px;
+        }
+        .video-info h3 {
+            margin: 0;
+            font-size: 20px;
+            color: #00bcd4;
+        }
+        .video-info button {
+            margin-top: 10px;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            background-color: #009688;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+        }
+        .video-info button:hover {
+            background-color: #00796b;
+        }
+        #bottom-menu {
+            display: flex;
+            justify-content: space-around;
+            padding: 15px;
+            background-color: #222;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        #bottom-menu button {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            background-color: #009688;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        #bottom-menu button:hover {
+            background-color: #00796b;
+        }
+
+        /* 3D loading spinner with multiple colors */
+        .loading-spinner {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            border: 8px solid transparent;
+            border-top: 8px solid #009688;
+            border-bottom: 8px solid #00bcd4;
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        /* Custom Video Player */
+        .custom-video-player {
+            width: 100%;
+            height: 400px;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+        }
+
+        .custom-video-player iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Share Button */
+        .share-button {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            padding: 10px;
+            background-color: #00bcd4;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .share-button:hover {
+            background-color: #009688;
+        }
+
+        /* Comment section */
+        .comment-section {
+            margin-top: 15px;
+            padding: 15px;
+            background-color: #222;
+            border-radius: 10px;
+            color: white;
+        }
+        .comment-section textarea {
+            width: 100%;
+            padding: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+            font-size: 16px;
+        }
+        .comment-section button {
+            margin-top: 10px;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            background-color: #009688;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .comment-section button:hover {
+            background-color: #00796b;
+        }
+
+        /* Custom message to attract users */
+        .attract-message {
+            text-align: center;
+            padding: 20px;
+            background-color: #222;
+            color: white;
+            font-size: 18px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        /* User Authentication */
+        .auth-container {
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+        }
+        .auth-container input {
+            padding: 10px;
+            font-size: 16px;
+            margin: 10px;
+            border-radius: 8px;
+            border: 1px solid #ddd;
+        }
+        .auth-container button {
+            padding: 12px 20px;
+            font-size: 18px;
+            border: none;
+            background-color: #009688;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .auth-container button:hover {
+            background-color: #00796b;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Indian Video Platform
+    </header>
+
+    <div id="search-container">
+        <input type="text" id="search-input" placeholder="SΣAЯCH ANYTHING...BYΣ @MЯ_AЯMAN_OWNΣЯ" />
+        <button id="search-button">Search</button>
+    </div>
+
+    <div id="videos-container"></div>
+    <div class="loading-spinner" id="loading-spinner" style="display: none;"></div>
+
+    <div id="bottom-menu">
+        <button onclick="loadHome()">HOME</button>
+        <button onclick="loadHistory()">HISTORY</button>
+        <button onclick="loadCategories()">CATEGORIES</button>
+    </div>
+
+    <div class="attract-message">
+        <h3>Welcome to the Ultimate Indian Video Experience!</h3>
+        <p>Explore a vast collection of videos from India. Share your thoughts and comments with other users.</p>
+    </div>
+
+    <div class="auth-container" id="auth-container">
+        <h3>Sign Up / Login COMMING SOON</h3>
+        <input type="text" id="username" placeholder="Username" />
+        <input type="password" id="password" placeholder="Password" />
+        <button onclick="authenticateUser()">Login / Sign Up</button>
+    </div>
+
+    <script>
+        const YOUTUBE_API_KEY = "AIzaSyBcXM10C3POyDSFoLYHspgf2A3ncqnSVO8";
+        const API_URL = "https://www.googleapis.com/youtube/v3/search";
+        const videosContainer = document.getElementById("videos-container");
+        const searchInput = document.getElementById("search-input");
+        const searchButton = document.getElementById("search-button");
+        const loadingSpinner = document.getElementById("loading-spinner");
+        const authContainer = document.getElementById("auth-container");
+        const history = [];
+
+        // Fetch trending Indian videos on page load
+        function fetchTrendingVideos() {
+            const url = `${API_URL}?part=snippet&chart=mostPopular&maxResults=6&regionCode=IN&key=${YOUTUBE_API_KEY}`;
+            fetchVideos(url);
+        }
+
+        // Fetch videos based on search query
+        function searchVideos(query) {
+            const url = `${API_URL}?part=snippet&q=India ${encodeURIComponent(query)}&maxResults=6&regionCode=IN&key=${YOUTUBE_API_KEY}`;
+            fetchVideos(url);
+        }
+
+        // Fetch videos and render them
+        function fetchVideos(url) {
+            showLoading(true);
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.items && data.items.length > 0) {
+                        renderVideos(data.items);
+                    } else {
+                        videosContainer.innerHTML = "<p>No videos found.</p>";
+                    }
+                    showLoading(false);
+                })
+                .catch(error => {
+                    console.error("Error fetching videos:", error);
+                    videosContainer.innerHTML = "<p>Error fetching videos. Please try again later.</p>";
+                    showLoading(false);
+                });
+        }
+
+        // Render videos
+        function renderVideos(videos) {
+            videosContainer.innerHTML = "";
+            videos.forEach(video => {
+                const videoId = video.id.videoId;
+                const thumbnail = video.snippet.thumbnails.medium.url;
+                const title = video.snippet.title;
+
+                const videoCard = document.createElement("div");
+                videoCard.className = "video-card";
+                videoCard.innerHTML = `
+                    <img src="${thumbnail}" alt="${title}" />
+                    <div class="video-info">
+                        <h3>${title}</h3>
+                    </div>
+                `;
+                videoCard.onclick = () => playVideo(videoId);
+                videosContainer.appendChild(videoCard);
+            });
+        }
+
+        // Play video function
+        function playVideo(videoId) {
+            const videoPlayerContainer = document.createElement("div");
+            videoPlayerContainer.className = "custom-video-player";
+            videoPlayerContainer.innerHTML = `
+                <iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                <button class="share-button" onclick="shareVideo('${videoId}')">Share</button>
+            `;
+            videosContainer.innerHTML = "";
+            videosContainer.appendChild(videoPlayerContainer);
+            addCommentSection(videoId);
+        }
+
+        // Show loading spinner
+        function showLoading(isLoading) {
+            if (isLoading) {
+                loadingSpinner.style.display = "block";
+            } else {
+                loadingSpinner.style.display = "none";
+            }
+        }
+
+        // Add comment section below the video
+        function addCommentSection(videoId) {
+            const commentSection = document.createElement("div");
+            commentSection.className = "comment-section";
+            commentSection.innerHTML = `
+                <h4>Comments</h4>
+                <textarea id="comment-textarea" placeholder="Add a comment..." rows="4"></textarea>
+                <button onclick="submitComment('${videoId}')">Post Comment</button>
+                <div id="comments-list"></div>
+            `;
+            videosContainer.appendChild(commentSection);
+            loadComments(videoId);
+        }
+
+        // Load comments from local storage (or fetch from server)
+        function loadComments(videoId) {
+            const comments = JSON.parse(localStorage.getItem(videoId)) || [];
+            const commentsList = document.getElementById("comments-list");
+            commentsList.innerHTML = "";
+            comments.forEach(comment => {
+                const commentElement = document.createElement("p");
+                commentElement.textContent = comment;
+                commentsList.appendChild(commentElement);
+            });
+        }
+
+        // Submit comment
+        function submitComment(videoId) {
+            const commentTextarea = document.getElementById("comment-textarea");
+            const commentText = commentTextarea.value.trim();
+            if (commentText) {
+                let comments = JSON.parse(localStorage.getItem(videoId)) || [];
+                comments.push(commentText);
+                localStorage.setItem(videoId, JSON.stringify(comments));
+                loadComments(videoId);
+                commentTextarea.value = "";
+            }
+        }
+
+        // Share video
+        function shareVideo(videoId) {
+            const shareUrl = `https://yourwebsite.com/watch?v=${videoId}`;
+            prompt("Share this video link:", shareUrl);
+        }
+
+        // Authenticate user
+        function authenticateUser() {
+            const username = document.getElementById("username").value;
+            const password = document.getElementById("password").value;
+            if (username && password) {
+                alert(`Welcome, ${username}!`);
+                authContainer.style.display = "none";
+                loadHome();
+            } else {
+                alert("Please enter both username and password.");
+            }
+        }
+
+        // Event listeners for search
+        searchButton.addEventListener("click", () => searchVideos(searchInput.value));
+        searchInput.addEventListener("keypress", (event) => {
+            if (event.key === "Enter") {
+                searchVideos(searchInput.value);
+            }
+        });
+
+        // Load home page with trending videos
+        function loadHome() {
+            fetchTrendingVideos();
+        }
+
+        // Load categories (empty for now)
+        function loadCategories() {
+            alert("Categories section is coming soon!");
+        }
+
+        // Load history (empty for now)
+        function loadHistory() {
+            alert("History is empty.");
+        }
+
+        // Initial load of trending videos
+        loadHome();
+    </script>
+</body>
+</html>
